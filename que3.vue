@@ -1,9 +1,11 @@
+
 <template>
     <div>
         <form>
     Firstname: <input type="text" id="fn" name="firstname" placeholder="Enterfirstname"/><br>
-    Lastname: <input type="text" id="sn"  name="lastname" placeholder="Enterlastname" /><br>
+    Lastname: <input type="text" id="ln"  name="lastname" placeholder="Enterlastname" /><br>
         <input type="button" @click="add()" Value="add" />
+        <input type="button" @click="remove()" Value="remove" />
     </form>
 <b-table users :items="items" :fields="fields"></b-table>
     </div>
@@ -19,16 +21,14 @@ items:[{firstname:"sukanya",lastname:"afa"}]
     },
     methods:{
         add(){
-            var fn,sn
-this.firstname=document.getElementById(fn).value
-this.lastname=document.getElementById(sn).value
-
-console.log(this.firstname)
-console.log(this.lastname)
-
-
-
-       }
-    }
-}
+            this.items.push({
+firstname:document.getElementById("fn").value,
+lastname:document.getElementById("ln").value,
+            });
+    },
+    remove(){
+        this.items.pop("fn","ln");
+    },
+       },
+    };
 </script>
