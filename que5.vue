@@ -1,62 +1,58 @@
 <template>
-    <div>
-        <b-form @submit="onSubmit" @reset="onReset" v-if="show">
-      <b-form-group
-        id="input-group-1"
-        label="country"
-        label-for="input-1">
-        <b-form-input
-          id="input-1"
-          v-model="form.country"
-          type="text"
-          placeholder="Enter country name"
-          required></b-form-input>
-      </b-form-group>
-      <b-button @click="OnSubmit(event)" type="submit" variant="primary">Submit</b-button>
-      <b-button  @click="OnReset(event)" type="reset" variant="danger">Reset</b-button>
-    </b-form>
-    <b-card class="mt-3" header="Form Data Result">
-      <pre class="m-0">{{ form }}</pre>
-    </b-card>
-    </div>
+<div>
+<b-form-input v-model="value" placeholder="enter country name" required></b-form-input>
+<button @click="getData()">click button</button>
+<!--<b-table striped hover :items="posts" :fields="fields">-->
+  <b-container class="bv-example-row">
+<b-card>
+  <b-card-text v-for="data1 in posts" :key=data1.id>
+  <b-card>
+<b-row>
+<b-col>University name:{{data1.name}}</b-col>
+</b-row>
+<div class="w-100"></div>
+<b-row>
+<b-col>Domain:{{data1.domains}}</b-col>
+<b-col>State-province:{{data1.state-province}}</b-col>
+<b-col>Web-pages{{data1.web_pages}}</b-col>
+</b-row>
+</b-card>
+</b-card-text>
+</b-card>
+</b-container>
+</div>
 </template>
 <script>
-var axios = require("axios").default;
 export default {
-name: 'QuE4',
-components: {},
-data(){
-    return{
-        form:{
-           country:" "
-       },
-    }
-},
-async mounted(){
-let response=await this.getData()
-console.log(response)
+name: "QueS5",
+data() {
+return {
+posts:" ",
+fields: ["name", "domains", "state-province","web-pages"],
+};
 },
 methods: {
-     onSubmit(event) {
-        event.preventDefault()
-        alert(JSON.stringify(this.form))
-     },
-     onReset(event) {
-        event.preventDefault()
-        // Reset our form values
-        this.form.country = ''
-     },
- getData(){
-let response= new Promise((resolve, reject) => {
-axios.get("http://universities.hipolabs.com/search?country=${India}").then((response) => {
-resolve(response.data);
-}).catch((error) => {
-reject(error);
-});
-});
-response.then((data) => {console.log("response", data) }).catch((err) => {console.log(err)})
+async getData() {
+try {
+let response = await fetch("http://universities.hipolabs.com/search?country="+this.value);
+this.posts = await response.json();
+//this.value=this.posts;
 }
-
+catch (error) {
+console.log(error);
 }
-}
+},
+},
+created() {
+this.getData();
+},
+};
 </script>
+
+
+
+
+
+
+
+
